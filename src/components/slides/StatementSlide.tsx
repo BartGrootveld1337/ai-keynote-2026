@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { BlurText } from "@/components/reactbits";
 
 interface StatementSlideProps {
   number: string;
@@ -46,12 +47,19 @@ export default function StatementSlide({ number, label, sub }: StatementSlidePro
         initial="hidden"
         animate="show"
       >
-        {/* Giant number */}
+        {/* Giant number — BlurText for dramatic blur-in */}
         <motion.div variants={item} className="relative">
-          <span
-            className="font-black leading-none select-none"
+          <BlurText
+            text={number}
+            delay={0.1}
+            duration={0.8}
+            stepDelay={0.05}
+            as="span"
             style={{
               fontSize: "clamp(8rem, 20vw, 16rem)",
+              fontWeight: 900,
+              lineHeight: 1,
+              display: "block",
               background:
                 "linear-gradient(135deg, #00d4ff 0%, #6366f1 60%, #8b5cf6 100%)",
               WebkitBackgroundClip: "text",
@@ -59,9 +67,7 @@ export default function StatementSlide({ number, label, sub }: StatementSlidePro
               backgroundClip: "text",
               filter: "drop-shadow(0 0 60px rgba(0,212,255,0.25))",
             }}
-          >
-            {number}
-          </span>
+          />
         </motion.div>
 
         {/* Label */}

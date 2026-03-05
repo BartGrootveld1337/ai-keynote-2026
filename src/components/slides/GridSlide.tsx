@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { Counter } from "@/components/reactbits";
 
 interface GridItem {
   number: string;
@@ -32,6 +33,16 @@ const colors = [
   { text: "#8b5cf6", glow: "rgba(139,92,246,0.15)", border: "rgba(139,92,246,0.3)" },
   { text: "#00d4ff", glow: "rgba(0,212,255,0.1)", border: "rgba(0,212,255,0.25)" },
 ];
+
+/**
+ * Parse a number string like "78%", "2.5x", "46%" into { value, suffix, prefix }.
+ */
+function parseNumber(raw: string): { value: number; suffix: string; prefix: string } {
+  const prefix = raw.match(/^[^0-9.]*/)?.[0] ?? "";
+  const suffix = raw.match(/[^0-9.]+$/)?.[0] ?? "";
+  const value = parseFloat(raw.replace(/[^0-9.]/g, "")) || 0;
+  return { value, suffix, prefix };
+}
 
 export default function GridSlide({ title, items }: GridSlideProps) {
   return (
@@ -73,6 +84,8 @@ export default function GridSlide({ title, items }: GridSlideProps) {
         <div className="grid grid-cols-2 gap-6">
           {items.map((gridItem, i) => {
             const color = colors[i % colors.length];
+            const { value, suffix, prefix } = parseNumber(gridItem.number);
+
             return (
               <motion.div
                 key={i}
@@ -83,17 +96,22 @@ export default function GridSlide({ title, items }: GridSlideProps) {
                   borderColor: color.border,
                 }}
               >
-                {/* Big number */}
-                <span
+                {/* Animated counter number */}
+                <Counter
+                  from={0}
+                  to={value}
+                  duration={1.8}
+                  delay={0.3 + i * 0.12}
+                  suffix={suffix}
+                  prefix={prefix}
+                  decimals={value % 1 !== 0 ? 1 : 0}
                   className="font-black leading-none mb-3"
                   style={{
                     fontSize: "clamp(3rem, 6vw, 5rem)",
                     color: color.text,
                     filter: `drop-shadow(0 0 20px ${color.text}40)`,
                   }}
-                >
-                  {gridItem.number}
-                </span>
+                />
 
                 {/* Label */}
                 <span

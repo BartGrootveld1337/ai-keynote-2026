@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { Aurora, BlurText, SplitText } from "@/components/reactbits";
 
 interface TitleSlideProps {
   title: string;
@@ -35,16 +36,19 @@ export default function TitleSlide({ title, subtitle, meta, footer }: TitleSlide
       exit={{ opacity: 0 }}
       transition={{ duration: 0.4, ease: "easeInOut" }}
     >
+      {/* Aurora animated background */}
+      <Aurora intensity="subtle" />
+
       {/* Background glow */}
       <div
         className="absolute inset-0 pointer-events-none"
         style={{
           background:
-            "radial-gradient(ellipse 60% 50% at 50% 50%, rgba(99,102,241,0.12) 0%, transparent 70%)",
+            "radial-gradient(ellipse 60% 50% at 50% 50%, rgba(99,102,241,0.08) 0%, transparent 70%)",
         }}
       />
 
-      {/* Decorative line */}
+      {/* Decorative top line */}
       <motion.div
         className="absolute top-0 left-0 right-0 h-px"
         style={{
@@ -76,20 +80,24 @@ export default function TitleSlide({ title, subtitle, meta, footer }: TitleSlide
           </span>
         </motion.div>
 
-        {/* Main title */}
-        <motion.h1
-          variants={item}
-          className="font-black leading-tight mb-6"
-          style={{
-            fontSize: "clamp(2.5rem, 6vw, 5rem)",
-            background: "linear-gradient(135deg, #f1f5f9 0%, #6366f1 50%, #00d4ff 100%)",
-            WebkitBackgroundClip: "text",
-            WebkitTextFillColor: "transparent",
-            backgroundClip: "text",
-          }}
-        >
-          {title}
-        </motion.h1>
+        {/* Main title — BlurText animation */}
+        <div className="mb-6">
+          <BlurText
+            text={title}
+            delay={0.3}
+            stepDelay={0.07}
+            as="h1"
+            style={{
+              fontSize: "clamp(2.5rem, 6vw, 5rem)",
+              fontWeight: 900,
+              lineHeight: 1.1,
+              background: "linear-gradient(135deg, #f1f5f9 0%, #6366f1 50%, #00d4ff 100%)",
+              WebkitBackgroundClip: "text",
+              WebkitTextFillColor: "transparent",
+              backgroundClip: "text",
+            }}
+          />
+        </div>
 
         {/* Divider */}
         <motion.div
@@ -98,14 +106,21 @@ export default function TitleSlide({ title, subtitle, meta, footer }: TitleSlide
           style={{ background: "linear-gradient(90deg, #6366f1, #00d4ff)" }}
         />
 
-        {/* Subtitle */}
-        <motion.p
-          variants={item}
-          className="text-xl leading-relaxed mb-10 max-w-2xl"
-          style={{ color: "#94a3b8" }}
-        >
-          {subtitle}
-        </motion.p>
+        {/* Subtitle — SplitText animation */}
+        <div className="mb-10 max-w-2xl">
+          <SplitText
+            text={subtitle}
+            delay={0.7}
+            stepDelay={0.04}
+            mode="words"
+            as="p"
+            style={{
+              fontSize: "clamp(1rem, 2vw, 1.25rem)",
+              lineHeight: 1.7,
+              color: "#94a3b8",
+            }}
+          />
+        </div>
 
         {/* Meta / name */}
         {!footer && (

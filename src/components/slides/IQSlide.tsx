@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { BlurText } from "@/components/reactbits";
 
 interface IQSlideProps {
   leftNumber: string;
@@ -59,17 +60,22 @@ export default function IQSlide({
           variants={item}
           className="flex items-end justify-center gap-16 mb-4"
         >
-          {/* Left number */}
+          {/* Left number — dimmed, BlurText */}
           <div className="flex flex-col items-center">
-            <span
-              className="font-black leading-none"
+            <BlurText
+              text={leftNumber}
+              delay={0.15}
+              duration={0.7}
+              stepDelay={0.06}
+              as="span"
               style={{
                 fontSize: "clamp(4rem, 10vw, 7rem)",
+                fontWeight: 900,
+                lineHeight: 1,
                 color: "#64748b",
+                display: "block",
               }}
-            >
-              {leftNumber}
-            </span>
+            />
             <span
               className="mt-2 text-sm font-semibold tracking-[0.15em] uppercase"
               style={{ color: "#475569" }}
@@ -80,38 +86,31 @@ export default function IQSlide({
 
           {/* VS */}
           <div className="flex flex-col items-center pb-8">
-            <span
-              className="font-black text-2xl"
-              style={{ color: "#334155" }}
-            >
+            <span className="font-black text-2xl" style={{ color: "#334155" }}>
               vs
             </span>
           </div>
 
-          {/* Right number */}
+          {/* Right number — highlighted, BlurText with glow */}
           <div className="flex flex-col items-center">
-            <motion.span
-              className="font-black leading-none"
+            <BlurText
+              text={rightNumber}
+              delay={0.35}
+              duration={0.8}
+              stepDelay={0.05}
+              as="span"
               style={{
                 fontSize: "clamp(4rem, 10vw, 7rem)",
-                background:
-                  "linear-gradient(135deg, #6366f1, #00d4ff)",
+                fontWeight: 900,
+                lineHeight: 1,
+                display: "block",
+                background: "linear-gradient(135deg, #6366f1, #00d4ff)",
                 WebkitBackgroundClip: "text",
                 WebkitTextFillColor: "transparent",
                 backgroundClip: "text",
                 filter: "drop-shadow(0 0 30px rgba(99,102,241,0.35))",
               }}
-              animate={{
-                filter: [
-                  "drop-shadow(0 0 30px rgba(99,102,241,0.3))",
-                  "drop-shadow(0 0 50px rgba(99,102,241,0.5))",
-                  "drop-shadow(0 0 30px rgba(99,102,241,0.3))",
-                ],
-              }}
-              transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
-            >
-              {rightNumber}
-            </motion.span>
+            />
             <span
               className="mt-2 text-sm font-semibold tracking-[0.15em] uppercase"
               style={{ color: "#6366f1" }}
