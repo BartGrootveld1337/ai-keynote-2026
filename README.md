@@ -1,55 +1,59 @@
-# AI Keynote 2026 — NLdigital Ondernemersdag
+# ⚡ AI Keynote 2026
 
-**"Je Volgende Collega Is Geen Mens"**  
-Presentatie door Bart Grootveld · 15 april 2026
+> **"Je Volgende Collega Is Geen Mens"**
+> NLdigital Ondernemersdag — 15 april 2026 — Mauritskazerne, Ede
 
----
+Een custom Next.js presentatie gebouwd door [Bart Grootveld](https://vrijdag.ai) voor de NLdigital Ondernemersdag 2026.
 
-## 🚀 Snel starten
+## 🚀 Live bekijken
 
 ```bash
-pnpm install
-pnpm dev
+npm install
+npm run dev
+# Open http://localhost:3000
 ```
 
-Open [http://localhost:3000](http://localhost:3000)
-
-## ⌨️ Navigatie
+## ⌨️ Keyboard shortcuts
 
 | Toets | Actie |
 |-------|-------|
-| `→` of `Space` | Volgende slide |
-| `←` | Vorige slide |
-| `F` | Fullscreen aan/uit |
+| `←` `→` | Vorige / volgende slide |
+| `Space` | Volgende slide |
+| `N` | Speaker notes aan/uit |
+| `O` | Slide overzicht |
+| `F` | Fullscreen |
+| `?` | Keyboard help |
 
-## 🛠 Tech Stack
+## 📊 13 Slides
 
-- **Next.js 15** (App Router)
-- **TypeScript**
-- **Tailwind CSS 4**
-- **Framer Motion** — animaties
+1. Zwart openingsscherm
+2. Titelslide — "Je Volgende Collega Is Geen Mens"
+3. 10 seconden statement
+4. De Drie Golven (2023 → 2024 → 2026)
+5. Vier cijfers die ertoe doen
+6. Het cruciale onderscheid (gereedschap vs collega)
+7. Live Demo 1 — Deep Research
+8. Vijf dingen die je morgen kunt doen
+9. Live Demo 2 — Data naar Inzicht
+10. IQ 135 vs 12.573
+11. Dag 29 — Het Lelieblad Effect
+12. De Cijfers die Je Wakker Houden
+13. Afsluiter — "Wat doe jij morgen anders?"
 
-## 📁 Structuur
+## 🛠️ Tech Stack
 
-```
-src/
-  app/
-    page.tsx          # Presentatie met slide state
-    layout.tsx        # Fullscreen layout, Inter font
-  components/
-    slides/           # 10 slide componenten
-    ui/               # ProgressBar, SlideCounter, Navigation
-  lib/
-    slides.ts         # Slide data/configuratie
-```
+- Next.js 15 (App Router)
+- TypeScript
+- Tailwind CSS 4
+- Framer Motion
 
-## 🎨 Design
+## 👤 Over de spreker
 
-- Achtergrond: `#050510`
-- Accent: `#6366f1` (indigo) · `#8b5cf6` (violet)
-- Highlight: `#00d4ff` (electric blue)
-- Font: Inter (Google Fonts)
+**Bart Grootveld** — Founder Vrijdag.AI / Break the Norm B.V.
+- 12 jaar Product Manager bij AFAS Software
+- Bouwt: Pylon (AI agent platform), Qrio (EU AI Act), SoulBuddy
+- [bart@vrijdag.ai](mailto:bart@vrijdag.ai) · [vrijdag.ai](https://vrijdag.ai)
 
 ---
 
-*Gebouwd met ❤️ door Clawdia voor Bart Grootveld — vrijdag.ai*
+*Gebouwd met ❤️ en Clawdia 🦾*
