@@ -6,6 +6,9 @@ import { slides } from "@/lib/slides";
 import ProgressBar from "@/components/ui/ProgressBar";
 import SlideCounter from "@/components/ui/SlideCounter";
 import Navigation from "@/components/ui/Navigation";
+import SpeakerNotes from "@/components/ui/SpeakerNotes";
+import SlideOverview from "@/components/ui/SlideOverview";
+import KeyboardHelp from "@/components/ui/KeyboardHelp";
 
 // Slide components
 import BlackSlide from "@/components/slides/BlackSlide";
@@ -18,6 +21,7 @@ import ListSlide from "@/components/slides/ListSlide";
 import DemoSlide from "@/components/slides/DemoSlide";
 import HorizonSlide from "@/components/slides/HorizonSlide";
 import IQSlide from "@/components/slides/IQSlide";
+import FactsSlide from "@/components/slides/FactsSlide";
 
 function renderSlide(slideIndex: number) {
   const slide = slides[slideIndex];
@@ -119,6 +123,15 @@ function renderSlide(slideIndex: number) {
         />
       );
 
+    case "facts":
+      return (
+        <FactsSlide
+          key={slideIndex}
+          title={slide.title!}
+          bullets={slide.factsBullets!}
+        />
+      );
+
     default:
       return <BlackSlide key={slideIndex} />;
   }
@@ -126,6 +139,9 @@ function renderSlide(slideIndex: number) {
 
 export default function Presentation() {
   const [current, setCurrent] = useState(0);
+  const [showNotes, setShowNotes] = useState(false);
+  const [showOverview, setShowOverview] = useState(false);
+  const [showHelp, setShowHelp] = useState(false);
   const total = slides.length;
 
   const goNext = useCallback(() => {
@@ -144,8 +160,22 @@ export default function Presentation() {
     }
   }, []);
 
+  const closeModals = useCallback(() => {
+    setShowOverview(false);
+    setShowHelp(false);
+  }, []);
+
   useEffect(() => {
     const handleKey = (e: KeyboardEvent) => {
+      // ESC closes overlays
+      if (e.key === "Escape") {
+        closeModals();
+        return;
+      }
+
+      // If overview or help is open, only allow ESC (handled above)
+      if (showOverview || showHelp) return;
+
       switch (e.key) {
         case "ArrowRight":
         case "ArrowDown":
@@ -162,13 +192,26 @@ export default function Presentation() {
         case "F":
           toggleFullscreen();
           break;
+        case "n":
+        case "N":
+          setShowNotes((v) => !v);
+          break;
+        case "o":
+        case "O":
+          setShowOverview((v) => !v);
+          break;
+        case "?":
+          setShowHelp((v) => !v);
+          break;
         default:
           break;
       }
     };
     window.addEventListener("keydown", handleKey);
     return () => window.removeEventListener("keydown", handleKey);
-  }, [goNext, goPrev, toggleFullscreen]);
+  }, [goNext, goPrev, toggleFullscreen, closeModals, showOverview, showHelp]);
+
+  const currentSlide = slides[current];
 
   return (
     <div
@@ -197,14 +240,37 @@ export default function Presentation() {
       <SlideCounter current={current + 1} total={total} />
 
       {/* Keyboard hint — only on first slide */}
-      {current === 0 && (
+      {current === 0 && !showOverview && !showHelp && (
         <div
-          className="fixed bottom-6 left-8 text-xs font-medium z-50"
+          className="fixed bottom-6 left-8 text-xs font-medium z-20"
           style={{ color: "#1e293b" }}
         >
-          → / Space = volgende &nbsp;·&nbsp; F = fullscreen
+          → / Space = volgende &nbsp;·&nbsp; F = fullscreen &nbsp;·&nbsp; ? = shortcuts
         </div>
       )}
+
+      {/* Speaker Notes */}
+      <SpeakerNotes
+        notes={currentSlide.speakerNotes ?? ""}
+        visible={showNotes && !showOverview && !showHelp}
+      />
+
+      {/* Slide Overview */}
+      <SlideOverview
+        visible={showOverview}
+        current={current}
+        onSelect={(i) => {
+          setCurrent(i);
+          setShowOverview(false);
+        }}
+        onClose={() => setShowOverview(false)}
+      />
+
+      {/* Keyboard Help */}
+      <KeyboardHelp
+        visible={showHelp}
+        onClose={() => setShowHelp(false)}
+      />
     </div>
   );
 }
